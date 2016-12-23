@@ -79,21 +79,21 @@ public class VpRetrofitManager2 {
 
     public <T>T createServiceApi(Class<T> cls){
         String key=baseUrl;
-        if(!serviceMap.containsKey(baseUrl)){
-            serviceMap.put(key,createRefrofit(cls));
+        if(!serviceMap.containsKey(key)){
+            serviceMap.put(key,createRefrofit().create(cls));
         }
         return (T)serviceMap.get(key);
 
     }
 
-    private <T>T createRefrofit(Class<T> cls){
+    private Retrofit createRefrofit(){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .client(createHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
-        return retrofit.create(cls);
+        return retrofit;
     }
 
     private OkHttpClient createHttpClient(){
