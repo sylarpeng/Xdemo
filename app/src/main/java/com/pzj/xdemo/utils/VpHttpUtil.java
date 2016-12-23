@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.pzj.vplibrary.http.ProgressListener;
 import com.pzj.vplibrary.http.VpRetrofitManager;
+import com.pzj.vplibrary.http.VpRetrofitManager2;
 import com.pzj.vplibrary.utils.IOUtil;
 import com.pzj.vplibrary.utils.MD5Util;
 import com.pzj.xdemo.base.BaseContents;
@@ -26,7 +27,6 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -43,7 +43,13 @@ public class VpHttpUtil {
      * @return
      */
     public static BaseServiceApi getServiceApi(Context context){
-        return VpRetrofitManager.getRetrofit(context,baseUrl,getHeaderParams(),getPublicParams()).create(BaseServiceApi.class);
+        return VpRetrofitManager2.getInstance(context)
+                .baseUrl(baseUrl)
+                .addHeaderParams(getHeaderParams())
+                .addPublicParams(getPublicParams())
+                .createServiceApi(BaseServiceApi.class);
+//        return VpRetrofitManager.getRetrofit(context,baseUrl,getHeaderParams(),getPublicParams()).create(BaseServiceApi.class);
+
     }
 
 
@@ -57,7 +63,11 @@ public class VpHttpUtil {
      * @param listener 下载进度回调
      */
     public static void downloadFile(final Context context, String baseurl, final String srcPath, final String desDir, final String desFileName, final ProgressListener listener){
-        VpRetrofitManager.getRetrofit(context,baseurl,null,null,VpRetrofitManager.NETTYPE_1,listener).create(BaseServiceApi.class)
+//        VpRetrofitManager.getRetrofit(context,baseurl,null,null,VpRetrofitManager.NETTYPE_1,listener).create(BaseServiceApi.class)
+        VpRetrofitManager2.getInstance(context)
+                .baseUrl(baseurl)
+                .addDownLoadListener(listener)
+                .createServiceApi(BaseServiceApi.class)
                 .downloadFile(srcPath)
                 .subscribeOn(Schedulers.io())
                 .map(new Func1<ResponseBody, String>() {

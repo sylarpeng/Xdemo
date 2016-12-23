@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         VpBottomTabView bottomView=new VpBottomTabView(this)
                 .addTab(R.mipmap.ic_home_normal,R.mipmap.ic_home_focus,"首页")
                 .addTab(R.mipmap.ic_shop_normal,R.mipmap.ic_shop_focus,"店铺")
-                .addTab(R.mipmap.ic_service_normal,R.mipmap.ic_service_focus,"我的")
+                .addTab(R.mipmap.ic_service_normal,R.mipmap.ic_service_focus,"我的1")
                 .setTabBackGroundColor(R.color.tab_background_color)
                 .setTextColorNormal(R.color.tab_normal_color)
                 .setTextColorSelected(R.color.tab_selected_color)
@@ -219,6 +219,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Observable<LoginUserBean> getLoginInfo(ServerTimeBean timeBean) {
         String mUserName = "18688451605";
         String mPassWord = "a1234567";
+
         if (timeBean == null)
             return null;
         if (timeBean.getResultCode() == 1000) {
@@ -228,7 +229,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 key = AESUtil.Encrypt(key, "1000000580000001");
                 String parUsername = Base64Util.encodeStr(mUserName);
                 String parPwd = Base64Util.encodeStr(mPassWord);
-
                 HashMap<String, String> hm = new HashMap<String, String>();
                 hm.put("username", parUsername);
                 hm.put("password", parPwd);
@@ -236,7 +236,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return VpHttpUtil.getServiceApi(mContext).login(hm);
             } catch (Exception e) {
                 e.printStackTrace();
-
                 return null;
             }
         } else {

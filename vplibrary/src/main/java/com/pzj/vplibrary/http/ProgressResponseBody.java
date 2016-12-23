@@ -54,7 +54,7 @@ public class ProgressResponseBody extends ResponseBody {
                     totalBytesRead += bytesRead != -1 ? bytesRead : 0;
                     listener.onProgress(responseBody.contentLength(),totalBytesRead);
 //                    if( bytesRead == -1){
-//                        listener.onFinished(ProgressResponseBody.this);
+//                        listener.onFinished(null);
 //                    }
                 } catch (IOException e) {
                     e.printStackTrace();
